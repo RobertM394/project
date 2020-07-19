@@ -1,0 +1,57 @@
+<%- include('partials/header.ejs') %>
+
+<script>
+
+$(document).ready(function(){
+    
+var albumsArray = [ {title:"Abbey Road", artist:"Beatles", coverImage: '<img src="/img/abbeyroad.jpg" alt="Abbey Road - Beatles">', price:25.00}, 
+{title:"Let There Be Cello", artist:"2 Cellos", coverImage: '<img src="/img/2cellos1.jpg" alt="Let There Be Cello - 2 Cellos">',  price:25.00},
+{title:"Rubber Soul", artist:"Beatles", coverImage: '<img src="/img/rubbersoul.jpg" alt="Rubber Soul - Beatles">',  price:25.00}
+
+];
+
+//function to find albums by name or artist and display them to user
+$("#albumSearch").on("change", function(){
+   
+  let searchValue = $("#albumSearch").val().toLowerCase();
+  let itemFound = false; 
+
+   //search albums and display results
+   for (let i = 0; i < 3; i++)
+   {
+     
+     titleBoolean = albumsArray[i].title.toLowerCase().includes(searchValue);
+     artistBoolean = albumsArray[i].artist.toLowerCase().includes(searchValue);
+     
+     if ( titleBoolean || artistBoolean ) {
+         $("#searchResult").html(`${albumsArray[i].coverImage} <br />`);
+         $("#searchResult").append(`<strong> Title: </strong>  ${albumsArray[i].title} <strong> Price: </strong> $${albumsArray[i].price}`);
+         itemFound = true;
+      }
+      
+   }//close for
+   
+   if (!itemFound) {
+      $("#searchResult").html("<p> No results found ... </p>");
+   }
+});//close album search 
+    
+
+});
+
+
+    
+</script>
+
+
+    <h4> Find an album... </h4>
+     <input type="text" id="albumSearch" placeholder="Album name or artist">  <br /> <br /> 
+    <h5>Recommended Albums for you: </h5>
+    
+    <!-- Searched for albums show here. Default before search is a randomly selected album. -->
+    <span id="searchResult"> 
+    <img src="/img/abbeyroad.jpg" alt="Abbey Road - Beatles">
+    </span>
+    
+
+</html>
