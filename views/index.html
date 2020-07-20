@@ -3,18 +3,23 @@
 <script>
 
 $(document).ready(function(){
+
+//global variables
     
-var albumsArray = [ {title:"Abbey Road", artist:"Beatles", coverImage: '<img src="/img/abbeyroad.jpg" alt="Abbey Road - Beatles">', price:25.00}, 
-{title:"Let There Be Cello", artist:"2 Cellos", coverImage: '<img src="/img/2cellos1.jpg" alt="Let There Be Cello - 2 Cellos">',  price:25.00},
-{title:"Rubber Soul", artist:"Beatles", coverImage: '<img src="/img/rubbersoul.jpg" alt="Rubber Soul - Beatles">',  price:25.00}
+var albumsArray = [ {albumID:0, title:"Abbey Road", artist:"The Beatles", coverImage: '<img src="/img/abbeyroad.jpg" alt="Abbey Road - Beatles">', price:25.00}, 
+{albumID:1, title:"Let There Be Cello", artist:"2 Cellos", coverImage: '<img src="/img/2cellos1.jpg" alt="Let There Be Cello - 2 Cellos">',  price:25.00},
+{albumID:2, title:"Rubber Soul", artist:"The Beatles", coverImage: '<img src="/img/rubbersoul.jpg" alt="Rubber Soul - Beatles">',  price:25.00}
 
 ];
+
+var shoppingCart = []
 
 //function to find albums by name or artist and display them to user
 $("#albumSearch").on("change", function(){
    
   let searchValue = $("#albumSearch").val().toLowerCase();
   let itemFound = false; 
+  let albumIDNum = 0;
 
    //search albums and display results
    for (let i = 0; i < 3; i++)
@@ -25,7 +30,11 @@ $("#albumSearch").on("change", function(){
      
      if ( titleBoolean || artistBoolean ) {
          $("#searchResult").html(`${albumsArray[i].coverImage} <br />`);
-         $("#searchResult").append(`<strong> Title: </strong>  ${albumsArray[i].title} <strong> Price: </strong> $${albumsArray[i].price}`);
+         $("#searchResult").append(`<strong> Artist: </strong> ${albumsArray[i].artist} <strong> Album: </strong> <i> ${albumsArray[i].title} </i> <strong> <br /> Price: </strong> $${albumsArray[i].price} <br /> <br />`);
+         $("#searchResult").append(`<button class="btn btn-outline-secondary"> Add to Cart </button>`);
+         albumIDNum = albumArray[i].albumID;
+         console.log(albumIDNum);
+         console.log("Test");
          itemFound = true;
       }
       
@@ -53,5 +62,5 @@ $("#albumSearch").on("change", function(){
     <img src="/img/abbeyroad.jpg" alt="Abbey Road - Beatles">
     </span>
     
-
+</body>
 </html>
