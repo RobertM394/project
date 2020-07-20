@@ -12,7 +12,7 @@ var albumsArray = [ {albumID:0, title:"Abbey Road", artist:"The Beatles", coverI
 
 ];
 
-var customerCart = [{albumID:0, title:"Abbey Road", artist:"The Beatles", coverImage: '<img src="/img/abbeyroad.jpg" alt="Abbey Road - Beatles">', price:25.00}];
+var customerCart = [1];
 localStorage.setItem("customerCart", customerCart);
 
 //function to find albums by name or artist and display them to user
@@ -32,7 +32,7 @@ $("#albumSearch").on("change", function(){
      if ( titleBoolean || artistBoolean ) {
          $("#searchResult").html(`${albumsArray[i].coverImage} <br />`);
          $("#searchResult").append(`<strong> Artist: </strong> ${albumsArray[i].artist} <strong> Album: </strong> <i> ${albumsArray[i].title} </i> <strong> <br /> Price: </strong> $${albumsArray[i].price} <br /> <br />`);
-         $("#searchResult").append('<button  id="addToCart" class="btn btn-outline-secondary"> Add to Cart </button>');
+         $("#searchResult").append(`<button  id="addToCart" value=${albumsArray[i].albumID} class="btn btn-outline-secondary"> Add to Cart </button>`);
          albumIDNum = albumsArray[i].albumID;
          console.log(albumIDNum);
          console.log("Test");
@@ -47,13 +47,11 @@ $("#albumSearch").on("change", function(){
 });//close album search 
     
 //function to add item to cart when Add button is clicked
-$("#addToCart").on("click", function(){
+$("#searchResult").on("click", "#addToCart", function(){
     
    let value = $("#addToCart").val();
-   $("#searchResult").append("Click");
-   console.log(value);
-   console.log("Add");
-    
+   customerCart.push(value);
+   console.log(customerCart);
 });
 
 
