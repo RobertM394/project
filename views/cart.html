@@ -27,14 +27,15 @@ calculateTotals();
 
 function calculateTotals(){
     
-    let tax = itemsPrice * 0.06;
-    let shipping = 0.00;
-    let total = itemsPrice + tax + shipping;
+    let tax = Math.round((itemsPrice * 0.06), 2);
+    let shipping = Math.round((itemsPrice * 0.00), 2);
+    let total = Math.round((itemsPrice + tax + shipping), 2);
     
     
-    $("#itemsPrice").html(`Items: $${itemsPrice}`);
-    $("#taxTotal").html(`Items: $${tax}`);
-    $("#orderTotal").html(`Items: $${total}`);
+    $("#itemsTotal").html(`Items: $${itemsPrice}`);
+    $("#taxTotal").html(`Tax: $${tax}`);
+    $("#shippingTotal").html(`Tax: $${shipping}`);
+    $("#orderTotal").html(`Total Price: $${total}`);
     
     
 }//calculate totals
@@ -52,8 +53,10 @@ function calculateTotals(){
 
 <div id="priceTotals">
     <h5> Order Summary </h5>
-    <p id = "itemsPrice"> Items: $0.00 </p>
-    <p id = "shippingPrice"> Shipping: $0.00 </p>
+    <hr />
+    <p id = "itemsTotal"> Items: $0.00 </p>
+    <p id = "taxTotal"> Tax: $0.00 </p>
+    <p id = "shippingTotal"> Shipping: $0.00 </p>
     <hr />
     <p id="orderTotal"> Order Total: $0.00 </p>
     
