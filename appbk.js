@@ -3,7 +3,6 @@ const app = express();
 const request = require("request");
 const pool = require("./dbPool.js");
 const bcrypt = require('bcrypt');
-const session = require('express-session');
 const mysql = require('mysql');
 
 
@@ -12,7 +11,7 @@ app.use(express.static("public"));
 
 //add sessions
 app.use(session({
- secret: "top secret!",
+ secret: "top secret!"
  resave: true,
  saveUninitialized: true
 }));
