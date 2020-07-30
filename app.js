@@ -26,10 +26,6 @@ app.get("/cart", function(req, res){
  res.render("cart.ejs");
 });
 
-app.get("/login", function(req, res){
- res.render("login.ejs");
-});
-
 app.get("/signup", function(req, res){
  res.render("signup.ejs");
 });
@@ -41,6 +37,25 @@ app.get("/admin", function(req, res){
 app.get("/reports", function(req, res){
  res.render("reports.ejs");
 });
+
+//Login route
+app.get("/login", function(req, res){
+ res.render("login.ejs");
+});
+//POST route to get password data entered on login
+app.use(express.urlencoded({extended: true})); //add ability to parse POST parameters
+
+app.post("/login", function(req, res){
+ let username = req.body.username;
+ let password = req.body.password; 
+ 
+ console.log("Username: " + username);
+ console.log("Password: " + password);
+ 
+ res.send("This is the root route using POST!");
+});
+
+
 
 //***API Routes*** 
 
