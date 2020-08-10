@@ -1,7 +1,9 @@
 $(document).ready(function() {
    //global variables
    var albumsArray = []; //the array is now populated from the database using populateAlbumArray();
+   var filteredAlbumsArray = []; //populated after a filtering parameter is entered in textboxes
    var albumIDsString = "";
+   $("#checkboxContainer").hide();
 
    //API call using Ajax to populate albums array from database. Uses app.get("/api/populateAlbumsArray") route in App.js
    populateAlbumArray();
@@ -73,36 +75,65 @@ $(document).ready(function() {
 
    //function to find albums by name or artist and display them to user
    $("#albumSearch").on("change", function() {
+      $("#searchResult").html("");
       let searchValue = $("#albumSearch").val().toLowerCase();
-      showSearchResults(searchValue);
+      
+      ($("#priceSearch").val() == "") ? showSearchResults(searchValue, false) : showSearchResults(searchValue, true);
    });
 
    $("#priceSearch").on("change", function() {
+       $("#searchResult").html("");
       let priceValue = $("#priceSearch").val();
-      showSearchResults(priceValue)
+      
+      ($("#albumSearch").val() == "") ? showSearchResults(priceValue, false) : showSearchResults(priceValue, true);
    });
 
+   
    //shows search results based on search by title/genre/artist or price 
-   function showSearchResults(searchParam) {
-      $("#searchResult").html("");
+   function showSearchResults(searchParam, filteredBoolean) {
 
       let itemFound = false;
       console.dir(albumsArray);
+      $("#checkboxContainer").show();
+      
+      if (!filteredBoolean) {
       //search albums and display results
+      filteredAlbumsArray = [];//reset filtered albums array
+      
       for (let i = 0; i < albumsArray.length; i++) {
          let titleBoolean = albumsArray[i].title.toLowerCase().includes(searchParam);
          let artistBoolean = albumsArray[i].artist.toLowerCase().includes(searchParam);
          let genreBoolean = (albumsArray[i].genre == searchParam);
 
-         if (titleBoolean || artistBoolean || genreBoolean || (albumsArray[i].price <= searchParam)) {
+         if (titleBoolean || artistBoolean || genreBoolean || (albumsArray[i].price <= searchParam) || searchParam == "all") {
+            filteredAlbumsArray.push(albumsArray[i]);
+            
             $("#searchResult").append(`${albumsArray[i].coverImage} <br />`);
             $("#searchResult").append(`<strong> Artist: </strong> ${albumsArray[i].artist} <strong> Album: </strong> <i> ${albumsArray[i].title} </i> <strong> <br /> Price: </strong> $${albumsArray[i].price} <br />`);
             $("#searchResult").append(`<button value=${albumsArray[i].albumID} class="btn btn-outline-secondary"> <strong> Add to Cart </strong> </button> <br /> <br />`);
            
             itemFound = true;
          }
-      } //close for
+       } 
+      }//close non-filtered array search
+      
+      else if (filteredBoolean) {
+      //search albums and display results
+      for (let i = 0; i < filteredAlbumsArray.length; i++) {
+         let titleBoolean = filteredAlbumsArray[i].title.toLowerCase().includes(searchParam);
+         let artistBoolean = filteredAlbumsArray[i].artist.toLowerCase().includes(searchParam);
+         let genreBoolean = (filteredAlbumsArray[i].genre == searchParam);
 
+         if (titleBoolean || artistBoolean || genreBoolean || (filteredAlbumsArray[i].price <= searchParam)) {
+            $("#searchResult").append(`${filteredAlbumsArray[i].coverImage} <br />`);
+            $("#searchResult").append(`<strong> Artist: </strong> ${filteredAlbumsArray[i].artist} <strong> Album: </strong> <i> ${filteredAlbumsArray[i].title} </i> <strong> <br /> Price: </strong> $${filteredAlbumsArray[i].price} <br />`);
+            $("#searchResult").append(`<button value=${filteredAlbumsArray[i].albumID} class="btn btn-outline-secondary"> <strong> Add to Cart </strong> </button> <br /> <br />`);
+           
+            itemFound = true;
+         }
+       } 
+      }//close filtered array search
+ 
       if (!itemFound) {
          $("#searchResult").html("<p> No results found ... </p>");
       }
@@ -115,7 +146,24 @@ $(document).ready(function() {
       $(this).html("Album Added!");
       albumIDsString += " ";
       albumIDsString += value;
+      console.log( $(this).val() );
       
       setCart(albumIDsString, 0);
    });
+   
+   //function to apply genre checkbox filters 
+      $(".checkBox").on("click", function(){
+        $("#searchResult").html("");
+        let allUnchecked = true;
+         
+         $(".checkBox").each(function(){
+            let checkboxValue = $(this).val();
+            let isChecked = this.checked; 
+            
+            isChecked ? showSearchResults(checkboxValue, true): "";
+            isChecked ? allUnchecked = false: "";
+         });
+         allUnchecked ? (showSearchResults("all", false)): "";
+      });//onClick()
+   
 }); //document ready
