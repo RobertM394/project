@@ -71,7 +71,7 @@ $(document).ready(function() {
       }); //ajax
    } //setCart()
 
-   //function to find albums by name or artist and display them to user
+   //functions to find albums by name or artist and display them to user
    $("#albumSearch").on("change", function() {
       $("#searchResult").html("");
       let searchValue = $("#albumSearch").val().toLowerCase();
@@ -86,7 +86,6 @@ $(document).ready(function() {
       ($("#albumSearch").val() == "") ? showSearchResults(priceValue, false) : showSearchResults(priceValue, true);
    });
 
-   
    //shows search results based on search by title/genre/artist or price 
    function showSearchResults(searchParam, filteredBoolean) {
 
@@ -112,7 +111,7 @@ $(document).ready(function() {
             var column = `<div class="col"> <div class="card"> <div class="card-body"> ${albumsArray[i].coverImage} <br /> <strong> Artist: </strong> ${albumsArray[i].artist} <strong> Album: </strong> <i> ${albumsArray[i].title} </i> <strong> <br /> Price: </strong> $${albumsArray[i].price} <br /> <button value=${albumsArray[i].albumID} class="btn btn-outline-secondary"> <strong> Add to Cart </strong> </button> </div> </div></div>`;
             var closeRow = `</div>`;
             
-            (counter == 1 || counter == 4 || counter == 7 || counter == 10 || counter == 13 || counter == 16 || counter == 19) ? rows += newRow : "";
+            (counter == 1 || (counter-1 % 3 ==0) ) ? rows += newRow : "";
             rows += column;
             (counter == 3 || (counter % 3 == 0) || i == albumsArray.length-1) ? rows += closeRow: "";
             
@@ -137,7 +136,7 @@ $(document).ready(function() {
             var column = `<div class="col"> <div class="card"> <div class="card-body"> ${filteredAlbumsArray[i].coverImage} <br /> <strong> Artist: </strong> ${filteredAlbumsArray[i].artist} <strong> Album: </strong> <i> ${filteredAlbumsArray[i].title} </i> <strong> <br /> Price: </strong> $${filteredAlbumsArray[i].price} <br /> <button value=${filteredAlbumsArray[i].albumID} class="btn btn-outline-secondary"> <strong> Add to Cart </strong> </button> </div> </div></div>`;
             var closeRow = `</div>`;
             
-            (counter == 1 || counter == 4 || counter == 7 || counter == 10 || counter == 13 || counter == 16 || counter == 19) ? rows += newRow : "";
+            (counter == 1 || (counter-1 % 3 ==0) ) ? rows += newRow : "";
             rows += column;
             (counter == 3 || (counter % 3 == 0) || i == filteredAlbumsArray.length-1) ? rows += closeRow: "";
             
