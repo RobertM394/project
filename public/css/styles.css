@@ -34,3 +34,7 @@
 .modal-body{
     text-align: left;
 }
+
+.card {
+    border: none;
+}

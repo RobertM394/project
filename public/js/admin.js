@@ -1,7 +1,8 @@
 $(document).ready(function() {
-
+   
    // Global variables
    var updateAlbumID;//this is for the update album function
+   localStorage.setItem("cartLength2", '1');
 
    // Event listeners.
 
@@ -104,12 +105,7 @@ $(document).ready(function() {
       }); //ajax
    } //addAlbum
 
-   function updateAlbum() {
-      var update = document.getElementById('update-album').value;
-      // update
-      console.log("Updated albumID:" + update.value);
-      update.value = " ";
-   }
+
 
    function updateAlbumsArray(action, title, artist, coverImage, price, genre, tag1, tag2) {
       $.ajax({

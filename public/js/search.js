@@ -21,7 +21,6 @@ $(document).ready(function() {
          success: function(data, status) {
 
             data.forEach(function(elem, i) {
-               console.log("Album data is:" + data);
                albumsArray[i] = { albumID: elem.albumID, title: elem.title, artist: elem.artist, coverImage: elem.coverImage, price: elem.price, genre: elem.genre};
             });
          }
@@ -68,7 +67,6 @@ $(document).ready(function() {
          },
 
          success: function(data, status) {
-            console.log("Data from setCart" + data + "Status" + status);
          }
       }); //ajax
    } //setCart()
@@ -93,6 +91,8 @@ $(document).ready(function() {
    function showSearchResults(searchParam, filteredBoolean) {
 
       let itemFound = false;
+      let rows = "";
+      let counter = 1;
       console.dir(albumsArray);
       $("#checkboxContainer").show();
       
@@ -107,14 +107,21 @@ $(document).ready(function() {
 
          if (titleBoolean || artistBoolean || genreBoolean || (albumsArray[i].price <= searchParam) || searchParam == "all") {
             filteredAlbumsArray.push(albumsArray[i]);
+
+            var newRow = `<div class="row">`;
+            var column = `<div class="col"> <div class="card"> <div class="card-body"> ${albumsArray[i].coverImage} <br /> <strong> Artist: </strong> ${albumsArray[i].artist} <strong> Album: </strong> <i> ${albumsArray[i].title} </i> <strong> <br /> Price: </strong> $${albumsArray[i].price} <br /> <button value=${albumsArray[i].albumID} class="btn btn-outline-secondary"> <strong> Add to Cart </strong> </button> </div> </div></div>`;
+            var closeRow = `</div>`;
             
-            $("#searchResult").append(`${albumsArray[i].coverImage} <br />`);
-            $("#searchResult").append(`<strong> Artist: </strong> ${albumsArray[i].artist} <strong> Album: </strong> <i> ${albumsArray[i].title} </i> <strong> <br /> Price: </strong> $${albumsArray[i].price} <br />`);
-            $("#searchResult").append(`<button value=${albumsArray[i].albumID} class="btn btn-outline-secondary"> <strong> Add to Cart </strong> </button> <br /> <br />`);
-           
+            (counter == 1 || counter == 4 || counter == 7 || counter == 10 || counter == 13 || counter == 16 || counter == 19) ? rows += newRow : "";
+            rows += column;
+            (counter == 3 || (counter % 3 == 0) || i == albumsArray.length-1) ? rows += closeRow: "";
+            
+            counter++;
             itemFound = true;
          }
        } 
+       //print string of HTML
+       $("#searchResult").append(rows);
       }//close non-filtered array search
       
       else if (filteredBoolean) {
@@ -125,13 +132,21 @@ $(document).ready(function() {
          let genreBoolean = (filteredAlbumsArray[i].genre == searchParam);
 
          if (titleBoolean || artistBoolean || genreBoolean || (filteredAlbumsArray[i].price <= searchParam)) {
-            $("#searchResult").append(`${filteredAlbumsArray[i].coverImage} <br />`);
-            $("#searchResult").append(`<strong> Artist: </strong> ${filteredAlbumsArray[i].artist} <strong> Album: </strong> <i> ${filteredAlbumsArray[i].title} </i> <strong> <br /> Price: </strong> $${filteredAlbumsArray[i].price} <br />`);
-            $("#searchResult").append(`<button value=${filteredAlbumsArray[i].albumID} class="btn btn-outline-secondary"> <strong> Add to Cart </strong> </button> <br /> <br />`);
-           
+          
+            var newRow = `<div class="row">`;
+            var column = `<div class="col"> <div class="card"> <div class="card-body"> ${filteredAlbumsArray[i].coverImage} <br /> <strong> Artist: </strong> ${filteredAlbumsArray[i].artist} <strong> Album: </strong> <i> ${filteredAlbumsArray[i].title} </i> <strong> <br /> Price: </strong> $${filteredAlbumsArray[i].price} <br /> <button value=${filteredAlbumsArray[i].albumID} class="btn btn-outline-secondary"> <strong> Add to Cart </strong> </button> </div> </div></div>`;
+            var closeRow = `</div>`;
+            
+            (counter == 1 || counter == 4 || counter == 7 || counter == 10 || counter == 13 || counter == 16 || counter == 19) ? rows += newRow : "";
+            rows += column;
+            (counter == 3 || (counter % 3 == 0) || i == filteredAlbumsArray.length-1) ? rows += closeRow: "";
+            
+            counter++;
             itemFound = true;
          }
-       } 
+       }
+       //print string of HTML 
+       $("#searchResult").append(rows);
       }//close filtered array search
  
       if (!itemFound) {
@@ -146,7 +161,6 @@ $(document).ready(function() {
       $(this).html("Album Added!");
       albumIDsString += " ";
       albumIDsString += value;
-      console.log( $(this).val() );
       
       setCart(albumIDsString, 0);
    });
