@@ -163,7 +163,7 @@ $(document).ready(function(){
                 $("#shippingTotal").hide();
                 $("#orderTotal").hide();
                 
-                $('#cartError').html('<p class="text-success" style="font-size: 1.5em">  ♪ <strong> Thanks for your Order </strong> ♫ </p> ');
+                $('#cartError').html('<p class="text-success" style="font-size: 1.5em"> ♫ <strong> Thanks for your Order </strong> ♫ </p> ');
                 $('#cartError').append('<p> <i> Check your email for a digital download link! </i> </p>');
                 $('#cartError').append('<p> <strong> Order Details: </strong> </p> <hr />');
 
