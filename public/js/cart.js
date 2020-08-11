@@ -54,7 +54,7 @@ $(document).ready(function(){
         });//ajax
     }//getCart()
     
-    //API call using Ajax to populate albums array from database. Uses app.get("/api/populateAlbumsArray") route in App.js
+    //API call using Ajax to populate albums array from database. Uses app.get("/api/populateAlbumsArray") route in app.js
     populateAlbumArray();
     function populateAlbumArray(){
         $.ajax({
